@@ -1,90 +1,109 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const sections = document.querySelectorAll('main section');
-    const navLinks = document.querySelectorAll('nav a');
+    // --- Unit Definitions ---
+    const units = {
+        length: {
+            mm: 1,
+            cm: 10,
+            m: 1000,
+            in: 25.4,
+        },
+        mass: {
+            g: 1,
+            kg: 1000,
+            oz: 28.3495,
+            lb: 453.592,
+        }
+    };
 
-    function showSection(id) {
-        sections.forEach(section => {
-            if (section.id === id) {
-                section.style.display = 'block';
-            } else {
-                section.style.display = 'none';
+    // --- Real-time Unit Converter ---
+    function createUnitConverters(category, containerId) {
+        const container = document.getElementById(containerId);
+        const unitDefs = units[category];
+
+        Object.keys(unitDefs).forEach(unit => {
+            const inputRow = document.createElement('div');
+            inputRow.classList.add('input-row');
+
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.id = `${category}-${unit}`;
+            input.dataset.unit = unit;
+            input.dataset.category = category;
+            input.placeholder = `Enter value in ${unit}`;
+
+            const label = document.createElement('span');
+            label.textContent = unit;
+
+            inputRow.appendChild(input);
+            inputRow.appendChild(label);
+            container.appendChild(inputRow);
+
+            input.addEventListener('input', handleUnitConversion);
+        });
+    }
+
+    function handleUnitConversion(event) {
+        const sourceInput = event.target;
+        const category = sourceInput.dataset.category;
+        const sourceUnit = sourceInput.dataset.unit;
+        const sourceValue = parseFloat(sourceInput.value);
+
+        if (isNaN(sourceValue)) {
+            clearInputs(category, sourceUnit);
+            return;
+        }
+
+        const baseValue = sourceValue * units[category][sourceUnit];
+
+        Object.keys(units[category]).forEach(targetUnit => {
+            if (targetUnit !== sourceUnit) {
+                const targetInput = document.getElementById(`${category}-${targetUnit}`);
+                const targetValue = baseValue / units[category][targetUnit];
+                targetInput.value = targetValue.toFixed(4);
             }
         });
     }
 
-    navLinks.forEach(link => {
-        link.addEventListener('click', (event) => {
-            event.preventDefault();
-            const targetId = link.getAttribute('href').substring(1);
-            showSection(targetId);
+    function clearInputs(category, exceptUnit) {
+        Object.keys(units[category]).forEach(unit => {
+            if (unit !== exceptUnit) {
+                document.getElementById(`${category}-${unit}`).value = '';
+            }
         });
-    });
-
-    // Show the first section by default
-    if (sections.length > 0) {
-        showSection(sections[0].id);
     }
 
-    // CBM Calculator
+    createUnitConverters('length', 'length-converters');
+    createUnitConverters('mass', 'mass-converters');
+
+    // --- CBM Calculator ---
     const cbmForm = document.getElementById('cbm-form');
     cbmForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        const length = document.getElementById('cbm-length').value;
-        const width = document.getElementById('cbm-width').value;
-        const height = document.getElementById('cbm-height').value;
-        const cbm = (length * width * height) / 1000000;
-        document.getElementById('cbm-result').textContent = cbm.toFixed(4) + ' CBM';
+
+        const getVal = id => parseFloat(document.getElementById(id).value);
+        const getUnit = id => document.getElementById(id).value;
+
+        const length = getVal('cbm-length');
+        const width = getVal('cbm-width');
+        const height = getVal('cbm-height');
+        const packages = getVal('cbm-packages');
+
+        const lengthUnit = getUnit('cbm-length-unit');
+        const widthUnit = getUnit('cbm-width-unit');
+        const heightUnit = getUnit('cbm-height-unit');
+
+        const toMeters = (val, unit) => val * (units.length[unit] / 1000);
+
+        const lengthInM = toMeters(length, lengthUnit === 'm' ? 'm' : (lengthUnit === 'in' ? 'in' : 'cm'));
+        const widthInM = toMeters(width, widthUnit === 'm' ? 'm' : (widthUnit === 'in' ? 'in' : 'cm'));
+        const heightInM = toMeters(height, heightUnit === 'm' ? 'm' : (heightUnit === 'in' ? 'in' : 'cm'));
+
+        const totalCBM = lengthInM * widthInM * heightInM * packages;
+        document.getElementById('cbm-result').textContent = totalCBM.toFixed(4) + ' CBM';
     });
 
-    // Length Converter
-    const lengthForm = document.getElementById('length-form');
-    lengthForm.addEventListener('submit', (event) => {
-        event.preventDefault();
-        const lengthInput = document.getElementById('length-input').value;
-        const lengthFrom = document.getElementById('length-from').value;
-        const lengthTo = document.getElementById('length-to').value;
 
-        const conversionRates = {
-            m: 1,
-            km: 1000,
-            cm: 0.01,
-            mm: 0.001,
-            mi: 1609.34,
-            yd: 0.9144,
-            ft: 0.3048,
-            in: 0.0254
-        };
-
-        const lengthInMeters = lengthInput * conversionRates[lengthFrom];
-        const convertedLength = lengthInMeters / conversionRates[lengthTo];
-
-        document.getElementById('length-result').textContent = convertedLength.toFixed(4);
-    });
-
-    // Mass Converter
-    const massForm = document.getElementById('mass-form');
-    massForm.addEventListener('submit', (event) => {
-        event.preventDefault();
-        const massInput = document.getElementById('mass-input').value;
-        const massFrom = document.getElementById('mass-from').value;
-        const massTo = document.getElementById('mass-to').value;
-
-        const conversionRates = {
-            g: 1,
-            kg: 1000,
-            mg: 0.001,
-            t: 1000000,
-            lb: 453.592,
-            oz: 28.3495
-        };
-
-        const massInGrams = massInput * conversionRates[massFrom];
-        const convertedMass = massInGrams / conversionRates[massTo];
-
-        document.getElementById('mass-result').textContent = convertedMass.toFixed(4);
-    });
-
-    // Currency Converter
+    // --- Currency Converter ---
     const currencyForm = document.getElementById('currency-form');
     currencyForm.addEventListener('submit', (event) => {
         event.preventDefault();
