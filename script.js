@@ -75,6 +75,11 @@ document.addEventListener('DOMContentLoaded', () => {
     createUnitConverters('length', 'length-converters');
     createUnitConverters('mass', 'mass-converters');
 
+    document.getElementById('reset-unit-converter').addEventListener('click', () => {
+        clearInputs('length');
+        clearInputs('mass');
+    });
+
     // --- CBM Calculator ---
     const cbmForm = document.getElementById('cbm-form');
     cbmForm.addEventListener('submit', (event) => {
@@ -106,6 +111,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('cbm-result').textContent = totalCBM.toFixed(4) + ' CBM';
     });
 
+    document.getElementById('reset-cbm-calculator').addEventListener('click', () => {
+        document.getElementById('cbm-form').reset();
+        document.getElementById('cbm-result').textContent = '0.0000 CBM';
+    });
+
     // --- Currency Converter ---
     const currencyForm = document.getElementById('currency-form');
     currencyForm.addEventListener('submit', (event) => {
@@ -131,5 +141,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Error fetching currency data:', error);
                 document.getElementById('currency-result').textContent = 'Error';
             });
+    });
+
+    document.getElementById('reset-currency-converter').addEventListener('click', () => {
+        document.getElementById('currency-form').reset();
+        document.getElementById('currency-result').textContent = '';
     });
 });

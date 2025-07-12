@@ -109,6 +109,16 @@ form button:hover {
     background-color: #166fe5;
 }
 
+.reset-button {
+    background-color: #e4e6eb;
+    color: #1c1e21;
+    margin-left: 10px;
+}
+
+.reset-button:hover {
+    background-color: #dadde1;
+}
+
 #currency-form span {
     text-align: center;
     margin: 0.5rem 0;

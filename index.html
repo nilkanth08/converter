@@ -13,6 +13,7 @@
     <main>
         <section id="unit-converter">
             <h2>Real-time Unit Converter</h2>
+            <button id="reset-unit-converter" class="reset-button">Reset</button>
             <div class="converter-group">
                 <h3>Length</h3>
                 <div id="length-converters">
@@ -74,6 +75,7 @@
                     </div>
                 </div>
                 <button type="submit">Calculate</button>
+                <button type="reset" id="reset-cbm-calculator" class="reset-button">Reset</button>
             </form>
             <p>Total CBM: <span id="cbm-result">0.0000 CBM</span></p>
         </section>
@@ -94,6 +96,7 @@
                     <option value="GBP">GBP</option>
                 </select>
                 <button type="submit">Convert</button>
+                <button type="reset" id="reset-currency-converter" class="reset-button">Reset</button>
             </form>
             <p>Result: <span id="currency-result"></span></p>
         </section>
