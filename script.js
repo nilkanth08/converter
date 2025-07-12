@@ -4,8 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
         length: {
             mm: 1,
             cm: 10,
-            m: 1000,
             in: 25.4,
+            m: 1000,
         },
         mass: {
             g: 1,
