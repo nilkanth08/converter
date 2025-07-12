@@ -21,19 +21,93 @@
     <main>
         <section id="cbm-calculator">
             <h2>Package CBM Calculator</h2>
-            <!-- CBM calculator content will go here -->
+            <form id="cbm-form">
+                <label for="cbm-length">Length (cm):</label>
+                <input type="number" id="cbm-length" required>
+                <label for="cbm-width">Width (cm):</label>
+                <input type="number" id="cbm-width" required>
+                <label for="cbm-height">Height (cm):</label>
+                <input type="number" id="cbm-height" required>
+                <button type="submit">Calculate</button>
+            </form>
+            <p>Result: <span id="cbm-result"></span></p>
         </section>
         <section id="length-converter">
             <h2>Length Converter</h2>
-            <!-- Length converter content will go here -->
+            <form id="length-form">
+                <input type="number" id="length-input" placeholder="Enter length">
+                <select id="length-from">
+                    <option value="m">Meters</option>
+                    <option value="km">Kilometers</option>
+                    <option value="cm">Centimeters</option>
+                    <option value="mm">Millimeters</option>
+                    <option value="mi">Miles</option>
+                    <option value="yd">Yards</option>
+                    <option value="ft">Feet</option>
+                    <option value="in">Inches</option>
+                </select>
+                <span>to</span>
+                <select id="length-to">
+                    <option value="m">Meters</option>
+                    <option value="km">Kilometers</option>
+                    <option value="cm">Centimeters</option>
+                    <option value="mm">Millimeters</option>
+                    <option value="mi">Miles</option>
+                    <option value="yd">Yards</option>
+                    <option value="ft">Feet</option>
+                    <option value="in">Inches</option>
+                </select>
+                <button type="submit">Convert</button>
+            </form>
+            <p>Result: <span id="length-result"></span></p>
         </section>
         <section id="mass-converter">
             <h2>Mass Converter</h2>
-            <!-- Mass converter content will go here -->
+            <form id="mass-form">
+                <input type="number" id="mass-input" placeholder="Enter mass">
+                <select id="mass-from">
+                    <option value="g">Grams</option>
+                    <option value="kg">Kilograms</option>
+                    <option value="mg">Milligrams</option>
+                    <option value="t">Metric Tons</option>
+                    <option value="lb">Pounds</option>
+                    <option value="oz">Ounces</option>
+                </select>
+                <span>to</span>
+                <select id="mass-to">
+                    <option value="g">Grams</option>
+                    <option value="kg">Kilograms</option>
+                    <option value="mg">Milligrams</option>
+                    <option value="t">Metric Tons</option>
+                    <option value="lb">Pounds</option>
+                    <option value="oz">Ounces</option>
+                </select>
+                <button type="submit">Convert</button>
+            </form>
+            <p>Result: <span id="mass-result"></span></p>
         </section>
         <section id="currency-converter">
             <h2>Currency Converter</h2>
-            <!-- Currency converter content will go here -->
+            <form id="currency-form">
+                <input type="number" id="currency-input" placeholder="Enter amount">
+                <select id="currency-from">
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                    <option value="JPY">JPY</option>
+                    <option value="INR">INR</option>
+                </select>
+                <span>to</span>
+                <select id="currency-to">
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                    <option value="JPY">JPY</option>
+                    <option value="INR">INR</option>
+                </select>
+                <button type="submit">Convert</button>
+            </form>
+            <p>Result: <span id="currency-result"></span></p>
         </section>
     </main>
     <script src="script.js"></script>
