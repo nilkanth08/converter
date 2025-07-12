@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unitverse</title>
+    <title>Unitverse - The Ultimate Converter</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,56 +15,67 @@
             <h2>Real-time Unit Converter</h2>
             <div class="converter-group">
                 <h3>Length</h3>
-                <div id="length-converters"></div>
+                <div id="length-converters">
+                    <!-- Length inputs will be dynamically generated here -->
+                </div>
             </div>
             <div class="converter-group">
                 <h3>Mass</h3>
-                <div id="mass-converters"></div>
+                <div id="mass-converters">
+                    <!-- Mass inputs will be dynamically generated here -->
+                </div>
             </div>
         </section>
 
         <section id="cbm-calculator">
             <h2>Package CBM Calculator</h2>
             <form id="cbm-form">
-                <label for="cbm-length">Length:</label>
-                <input type="number" id="cbm-length" placeholder="e.g., 10">
-                <select id="cbm-length-unit">
-                    <option value="cm">cm</option>
-                    <option value="m">m</option>
-                    <option value="in">in</option>
-                </select>
-
-                <label for="cbm-width">Width:</label>
-                <input type="number" id="cbm-width" placeholder="e.g., 10">
-                <select id="cbm-width-unit">
-                    <option value="cm">cm</option>
-                    <option value="m">m</option>
-                    <option value="in">in</option>
-                </select>
-
-                <label for="cbm-height">Height:</label>
-                <input type="number" id="cbm-height" placeholder="e.g., 10">
-                <select id="cbm-height-unit">
-                    <option value="cm">cm</option>
-                    <option value="m">m</option>
-                    <option value="in">in</option>
-                </select>
-
-                <label for="cbm-weight">Weight:</label>
-                <input type="number" id="cbm-weight" placeholder="e.g., 1">
-                <select id="cbm-weight-unit">
-                    <option value="kg">kg</option>
-                    <option value="g">g</option>
-                    <option value="lb">lb</option>
-                    <option value="oz">oz</option>
-                </select>
-
-                <label for="cbm-packages">Number of Packages:</label>
-                <input type="number" id="cbm-packages" value="1">
-
+                <div class="form-grid">
+                    <div>
+                        <label for="cbm-length">Length:</label>
+                        <input type="number" id="cbm-length" placeholder="e.g., 10">
+                        <select id="cbm-length-unit">
+                            <option value="cm">cm</option>
+                            <option value="m">m</option>
+                            <option value="in">in</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="cbm-width">Width:</label>
+                        <input type="number" id="cbm-width" placeholder="e.g., 10">
+                        <select id="cbm-width-unit">
+                            <option value="cm">cm</option>
+                            <option value="m">m</option>
+                            <option value="in">in</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="cbm-height">Height:</label>
+                        <input type="number" id="cbm-height" placeholder="e.g., 10">
+                        <select id="cbm-height-unit">
+                            <option value="cm">cm</option>
+                            <option value="m">m</option>
+                            <option value="in">in</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="cbm-weight">Weight:</label>
+                        <input type="number" id="cbm-weight" placeholder="e.g., 1">
+                        <select id="cbm-weight-unit">
+                            <option value="kg">kg</option>
+                            <option value="g">g</option>
+                            <option value="lb">lb</option>
+                            <option value="oz">oz</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="cbm-packages">Number of Packages:</label>
+                        <input type="number" id="cbm-packages" value="1" min="1">
+                    </div>
+                </div>
                 <button type="submit">Calculate</button>
             </form>
-            <p>Total CBM: <span id="cbm-result"></span></p>
+            <p>Total CBM: <span id="cbm-result">0.0000 CBM</span></p>
         </section>
 
         <section id="currency-converter">
@@ -73,18 +84,14 @@
                 <input type="number" id="currency-input" placeholder="Enter amount">
                 <select id="currency-from">
                     <option value="USD">USD</option>
-                    <option value="EUR">EUR</option>
-                    <option value="GBP">GBP</option>
-                    <option value="JPY">JPY</option>
                     <option value="INR">INR</option>
+                    <option value="GBP">GBP</option>
                 </select>
                 <span>to</span>
                 <select id="currency-to">
-                    <option value="USD">USD</option>
-                    <option value="EUR">EUR</option>
-                    <option value="GBP">GBP</option>
-                    <option value="JPY">JPY</option>
                     <option value="INR">INR</option>
+                    <option value="USD">USD</option>
+                    <option value="GBP">GBP</option>
                 </select>
                 <button type="submit">Convert</button>
             </form>

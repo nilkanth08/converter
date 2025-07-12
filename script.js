@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
             input.id = `${category}-${unit}`;
             input.dataset.unit = unit;
             input.dataset.category = category;
-            input.placeholder = `Enter value in ${unit}`;
+            input.placeholder = `Value in ${unit}`;
 
             const label = document.createElement('span');
             label.textContent = unit;
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const sourceUnit = sourceInput.dataset.unit;
         const sourceValue = parseFloat(sourceInput.value);
 
-        if (isNaN(sourceValue)) {
+        if (isNaN(sourceValue) || sourceValue === 0) {
             clearInputs(category, sourceUnit);
             return;
         }
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (targetUnit !== sourceUnit) {
                 const targetInput = document.getElementById(`${category}-${targetUnit}`);
                 const targetValue = baseValue / units[category][targetUnit];
-                targetInput.value = targetValue.toFixed(4);
+                targetInput.value = targetValue.toLocaleString(undefined, { maximumFractionDigits: 4 });
             }
         });
     }
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cbmForm.addEventListener('submit', (event) => {
         event.preventDefault();
 
-        const getVal = id => parseFloat(document.getElementById(id).value);
+        const getVal = id => parseFloat(document.getElementById(id).value) || 0;
         const getUnit = id => document.getElementById(id).value;
 
         const length = getVal('cbm-length');
@@ -92,16 +92,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const widthUnit = getUnit('cbm-width-unit');
         const heightUnit = getUnit('cbm-height-unit');
 
-        const toMeters = (val, unit) => val * (units.length[unit] / 1000);
+        const toMeters = (val, unit) => {
+            if (unit === 'm') return val;
+            if (unit === 'in') return val * 0.0254;
+            return val * 0.01; // cm
+        };
 
-        const lengthInM = toMeters(length, lengthUnit === 'm' ? 'm' : (lengthUnit === 'in' ? 'in' : 'cm'));
-        const widthInM = toMeters(width, widthUnit === 'm' ? 'm' : (widthUnit === 'in' ? 'in' : 'cm'));
-        const heightInM = toMeters(height, heightUnit === 'm' ? 'm' : (heightUnit === 'in' ? 'in' : 'cm'));
+        const lengthInM = toMeters(length, lengthUnit);
+        const widthInM = toMeters(width, widthUnit);
+        const heightInM = toMeters(height, heightUnit);
 
         const totalCBM = lengthInM * widthInM * heightInM * packages;
         document.getElementById('cbm-result').textContent = totalCBM.toFixed(4) + ' CBM';
     });
-
 
     // --- Currency Converter ---
     const currencyForm = document.getElementById('currency-form');
@@ -111,16 +114,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const currencyFrom = document.getElementById('currency-from').value;
         const currencyTo = document.getElementById('currency-to').value;
 
+        if (!currencyInput) return;
+
         if (currencyFrom === currencyTo) {
             document.getElementById('currency-result').textContent = parseFloat(currencyInput).toFixed(2);
             return;
         }
 
-        fetch(`https://api.frankfurter.app/latest?from=${currencyFrom}&to=${currencyTo}`)
+        fetch(`https://api.frankfurter.app/latest?from=${currencyFrom}&to=${currencyTo}&amount=${currencyInput}`)
             .then(response => response.json())
             .then(data => {
-                const rate = data.rates[currencyTo];
-                const convertedAmount = currencyInput * rate;
+                const convertedAmount = data.rates[currencyTo];
                 document.getElementById('currency-result').textContent = convertedAmount.toFixed(2);
             })
             .catch(error => {
